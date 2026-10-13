@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+models/
+logs/
+*.pth
+.env
+.pytest_cache/
+dist/
+build/
+.DS_Store
