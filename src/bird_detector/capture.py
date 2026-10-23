@@ -72,6 +72,7 @@ def capture_loop(config: dict, logger: logging.Logger):
     save_dir.mkdir(parents=True, exist_ok=True)
 
     cap = cv2.VideoCapture(camera_id)
+    cap.set(cv2.CAP_PROP_ZOOM, 50)
     if not cap.isOpened():
         logger.error(f"Не удалось открыть камеру {camera_id}")
         return
