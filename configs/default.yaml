@@ -1,0 +1,10 @@
+capture:
+  interval_seconds: 5 # интервал между попытками съёмки
+  motion_threshold: 3.0 # порог движения (среднее отклонение пикселей)
+  max_frames: 1000 # максимум кадров за сессию
+  save_dir: "data/raw" # папка для сырых кадров
+  camera_id: 0 # ID камеры (0 = первая камера)
+
+logging:
+  level: "INFO" # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/capture.log" # файл логов
