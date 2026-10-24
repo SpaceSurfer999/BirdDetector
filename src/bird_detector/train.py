@@ -8,6 +8,7 @@ from pathlib import Path
 import torch
 from torch import nn
 
+# Импорт модулей проекта
 from bird_detector.data import get_dataloaders
 from bird_detector.model import build_model
 
@@ -27,13 +28,14 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         Returns:
             tuple: (средний loss за эпоху, средний accuracy за эпоху)
     """
-
+    # Включаем режим обучения
     model.train()
 
     running_loss = 0.0
     correct = 0
     total = 0
 
+    # Цикл обучения и сбора статистики для расчета Accuracy и Loss
     for inputs, targets in loader:
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
@@ -51,6 +53,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
     return epoch_loss, epoch_acc
 
 
+# Декоратором отключаем граф вычислений
 @torch.no_grad()
 def validate(model, loader, criterion, device):
     """
@@ -66,12 +69,14 @@ def validate(model, loader, criterion, device):
         tuple: (средний val loss, val accuracy)
     """
 
+    # Включаем режим валидации
     model.eval()
 
     running_loss = 0.0
     correct = 0
     total = 0
 
+    # Цикл валидации и сбора статистики для расчета Accuracy и Loss
     for inputs, targets in loader:
         inputs, targets = inputs.to(device), targets.to(device)
         logits = model(inputs)
@@ -95,17 +100,25 @@ def run_training(
     """
     Главная функция запуска процесса.
     """
+    # Настройка устройства
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using {device}")
+
+    # Загрузка данных
     train_loader, val_loader = get_dataloaders(batch_size=batch_size)
+
+    # Инициализация модели
     model = build_model(num_classes=2).to(device)
+
+    # Функция потерь и оптимизатор
+    # Для классификации используем CrossEntropyLoss
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()),
         lr=lr,
-        weight_decay=0.1,
     )
 
+    # Переменные для Early Stopping
     best_val_loss = float("inf")
     best_model_state = None
 
@@ -153,4 +166,4 @@ if __name__ == "__main__":
 
     # Запуск обучения
     # Для начала используем дефолтные значения из сигнатуры функции
-    run_training(epochs=2000, lr=1e-5, batch_size=8)
+    run_training(epochs=20, lr=1e-3, batch_size=8)
