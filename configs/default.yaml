@@ -22,3 +22,11 @@ inference:
   classes:
     - "0_no_bird"
     - "1_bird"
+
+
+detector:
+  camera_id: 0
+  skip_frames: 5
+  cooldown_sec: 10
+  output_dir: "data/detections"
+  threshold_override: null
