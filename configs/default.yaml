@@ -8,3 +8,25 @@ capture:
 logging:
   level: "INFO" # DEBUG, INFO, WARNING, ERROR
   log_file: "logs/capture.log" # файл логов
+
+inference:
+  model_path: "models/best_bird_model.pth"
+  device: "auto"          # auto | cpu | cuda
+  threshold: 0.75         # Порог уверенности для класса "птица"
+  
+  # Пути к тестовым изображениям (для локальной проверки скрипта)
+  test_images:
+    bird: "data/train/1_bird/frame_20261017_160923.jpg"
+    no_bird: "data/train/0_no_bird/frame_20261017_143242.jpg"  # ← Замени на реальное имя своего пустого кадра!
+    
+  classes:
+    - "0_no_bird"
+    - "1_bird"
+
+
+detector:
+  camera_id: 0
+  skip_frames: 5
+  cooldown_sec: 10
+  output_dir: "data/detections"
+  threshold_override: null
