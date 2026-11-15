@@ -5,7 +5,7 @@ When the model detects a bird at the feeder, the system captures a photo automat
 
 ## Status
 
-🚧 Stage 0: project bootstrap.
+Project done.
 
 ## Setup
 
